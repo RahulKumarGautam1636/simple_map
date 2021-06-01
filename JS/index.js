@@ -43,4 +43,4 @@ function showLocation(position) {
 //   // console.log(position.coords.latitude);
 // }
 
-getLocation();
+//getLocation();
