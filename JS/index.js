@@ -49,7 +49,7 @@ function showLocation(response) {
   },"jsonp")
 }
 
-showLocation();
+// showLocation();
 
 function getMap(i) {
   mymap = L.map('myMap').setView(i, 10);
