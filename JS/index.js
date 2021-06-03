@@ -9,7 +9,7 @@ function showLocation(position) {
   // var myLocation = [];
   mylocation = [position.coords.latitude, position.coords.longitude];
   var mymap = L.map('myMap').setView(mylocation, 10);
-  var mylocation = [22.511946299999998, 88.2235536]
+//   var mylocation = [22.511946299999998, 88.2235536]
 
   const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   const attribution =
