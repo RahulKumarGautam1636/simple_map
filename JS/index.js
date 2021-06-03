@@ -40,7 +40,7 @@ function getLocation() {
 }
 // var mylocation = [22.511946299999998, 88.2235536]
 function showLocation(response) {
-  jQuery.get("http://ipinfo.io", function(response) {
+  jQuery.get("https://ipinfo.io", function(response) {
   var lat = response.loc.split(",")[0];
   var long = response.loc.split(",")[1];
   mylocation = [lat, long];
