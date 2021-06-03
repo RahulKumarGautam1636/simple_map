@@ -31,6 +31,20 @@
 
 
 
+var myIp = $("#myIp");
+var myLocation = $("#myLocation");
+var myTimezone = $("#myTimezone");
+var myIsp = $("#myIsp");
+function showDetails(item) {
+   myIp.text(item.ip);
+   myLocation.text(item.city);
+   myTimezone.text(item.timezone);
+   myIsp.text(item.org);
+   myFunction(x);
+}
+function closeInfo() {
+  $(".user_info").toggleClass("hideInfo");
+}
 function getLocation() {
    if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(findLocation);
@@ -41,15 +55,17 @@ function getLocation() {
 // var mylocation = [22.511946299999998, 88.2235536]
 function showLocation(response) {
   jQuery.get("https://ipinfo.io", function(response) {
+    // console.log(response);
   var lat = response.loc.split(",")[0];
   var long = response.loc.split(",")[1];
   mylocation = [lat, long];
   console.log(mylocation);
   getMap(mylocation);
+  showDetails(response);
   },"jsonp")
 }
 
-// showLocation();
+showLocation();
 
 function getMap(i) {
   mymap = L.map('myMap').setView(i, 10);
@@ -69,11 +85,19 @@ function getMap(i) {
 }
 var newItem = document.querySelector(".inputBar");
 function findLocation(position) {
-//   console.log(newItem.value);
-//   var newLocation = [newItem.value, 88.2235536];
-//   L.marker(newLocation, {icon: myIcon}).addTo(mymap);
+var newLocation = [position.coords.latitude, position.coords.longitude];
+  L.marker(newLocation, {icon: myIcon}).addTo(mymap);
+  console.log(newLocation);
+}
+// findLocation();
 
-// var newLocation = [position.coords.latitude, position.coords.longitude];
-  L.marker([position.coords.latitude, position.coords.longitude], {icon: myIcon}).addTo(mymap);
-  console.log(typeof(position.coords.latitude));
+x = window.matchMedia("(max-width: 900px)");
+myFunction(x);
+x.addListener(myFunction);
+function myFunction(x) {
+    if (!x.matches) {
+      $(".user_info").addClass("desk_height");
+    } else {
+      $(".user_info").addClass("mobile_height");
+    }
 }
