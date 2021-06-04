@@ -55,6 +55,7 @@ function getLocation() {
      console.log("Your browser doesn't supports this geoLocation.");
    }
 }
+getLocation();
 // var mylocation = [22.511946299999998, 88.2235536]
 function showLocation(response) {
   jQuery.get("https://ipinfo.io", function(response) {
@@ -63,7 +64,7 @@ function showLocation(response) {
   var long = response.loc.split(",")[1];
   mylocation = [lat, long];
   console.log(mylocation);
-  getMap(mylocation);
+  // getMap(mylocation);
   showDetails(response);
   },"jsonp")
 }
@@ -89,7 +90,8 @@ function getMap(i) {
 var newItem = document.querySelector(".inputBar");
 function findLocation(position) {
 var newLocation = [position.coords.latitude, position.coords.longitude];
-  L.marker(newLocation, {icon: myIcon}).addTo(mymap);
+  // L.marker(newLocation, {icon: myIcon}).addTo(mymap);
+  getMap(newLocation);
   console.log(newLocation);
 }
 // findLocation();
