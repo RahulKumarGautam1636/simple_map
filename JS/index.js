@@ -30,7 +30,6 @@
 // }
 
 
-
 var myIp = $("#myIp");
 var myLocation = $("#myLocation");
 var myTimezone = $("#myTimezone");
@@ -44,6 +43,10 @@ function showDetails(item) {
 }
 function closeInfo() {
   $(".user_info").toggleClass("hideInfo");
+  $("#close").toggleClass("rotateClose");
+  setTimeout(function() {
+    $(".user_info div").toggleClass("hide");
+  },400);
 }
 function getLocation() {
    if (navigator.geolocation) {
