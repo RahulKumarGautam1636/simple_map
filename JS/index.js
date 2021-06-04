@@ -85,6 +85,9 @@ function renderPlaces(i) {
     markers.bindPopup(item.name, { closeButton: false, offset: L.point(0, -15) }).openPopup();
     markers.addTo(mymap);
   });
+  markers.on('click', function(e) {
+    mymap.flyTo(e.latlng, 14, {duration: 3})
+  });
 }
 
 
