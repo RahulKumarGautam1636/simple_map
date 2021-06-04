@@ -58,7 +58,6 @@
       align-items: flex-start;
       background: whitesmoke;
       padding-left: 2vw;
-      transition: opacity 0.5s linear;
     }
     #myIsp {
       overflow-y: scroll;
@@ -127,8 +126,7 @@
         height: 24rem;
       }
       .hide {
-        opacity: 0 !important;
-        pointer-events: none !important;
+        display: none !important;
       }
     }
     .hideInfo {
@@ -139,10 +137,10 @@
 <body>
   <main>
     <div class="top_container">
-      <h1 id="heading">IP Address Tracker</h1>
+      <h1 onclick="getLocation()" id="heading">IP Address Tracker</h1>
       <div class="input_container">
         <input class="inputBar" type="text" placeholder="Search for any IP address or domain">
-        <button class="inputButton" type="button" name="button" onclick="getLocation()">
+        <button class="inputButton" type="button" name="button" onclick="showLocation()">
           <img src="images/icon-arrow.svg" alt="arrow">
         </button>
     </div>
