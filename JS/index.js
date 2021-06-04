@@ -44,9 +44,7 @@ function showDetails(item) {
 function closeInfo() {
   $(".user_info").toggleClass("hideInfo");
   $("#close").toggleClass("rotateClose");
-  setTimeout(function() {
-    $(".user_info div").toggleClass("hide");
-  },400);
+  $(".user_info div").toggleClass("hide");
 }
 function getLocation() {
    if (navigator.geolocation) {
