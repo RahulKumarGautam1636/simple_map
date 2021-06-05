@@ -20,7 +20,7 @@
        background-size: cover;
     }
     #heading { transform: translateY(-73%); color: white; }
-    .user_info { transition: 0.5s ease-in-out; height: 50%; width: 77%; position: absolute; bottom: -27%; border-radius: 10px; background: whitesmoke; display: flex; z-index: 1; overflow: hidden;}
+    .user_info { transition: 0.5s ease-in-out; padding: 0.7vw 0; height: 50%; width: 77%; position: absolute; top: 77%; border-radius: 10px; background: whitesmoke; display: flex; z-index: 1; overflow: hidden; box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;}
     #myMap {
       height: 68%; width: 100%;
       z-index: 0;
@@ -63,13 +63,13 @@
       overflow-y: scroll;
     }
     .user_info h1 {
-      font-size: 1.9vw;
+      font-size: clamp(1.4rem, 1.9vw, 1.7rem);
       color: hsl(0, 0%, 17%);
       font-weight: 500;
     }
     p {
-      margin: 1.5rem 0 0.5rem 0;
-      font-size: 1vw;
+      margin: 1.5rem 0 0.8rem 0;
+      font-size: 0.9vw;
       font-weight: 500;
       letter-spacing: 1px;
       color: hsl(0, 0%, 59%);
@@ -78,7 +78,7 @@
       position: absolute;
       right: 1rem;
       top: 1rem;
-      width: 1.5vw;
+      width: clamp(0.8rem, 1vw, 1.2rem);
       transform: rotate(-90deg);
       transition: transform 0.3s linear;
     }
@@ -87,6 +87,12 @@
     }
     .rotateClose {
       transform: rotate(90deg) !important;
+    }
+    #myIsp::-webkit-scrollbar {
+      width: 5px;
+    }
+    #myIsp::-webkit-scrollbar-thumb {
+      background: hsl(0, 0%, 59%);
     }
     @media only screen and (max-width: 900px) {
       .user_info {
