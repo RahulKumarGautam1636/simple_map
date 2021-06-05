@@ -58,6 +58,7 @@
       align-items: flex-start;
       background: whitesmoke;
       padding-left: 2vw;
+      transition: opacity 0.5s linear;
     }
     #myIsp {
       overflow-y: scroll;
@@ -93,6 +94,46 @@
     }
     #myIsp::-webkit-scrollbar-thumb {
       background: hsl(0, 0%, 59%);
+    }
+    .sideBar {
+      position: absolute;
+      height: 100%;
+      width: 23%;
+      min-width: 21rem;
+      background: gray;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      padding: 4rem;
+      transition: 0.5s ease-in-out;
+      transform: translateX(-100%);
+    }
+    .sideBar h1 {
+      margin: 2rem 0;
+    }
+    li {
+      margin: 1rem 0;
+      list-style: none;
+      font-size: 1.5rem;
+    }
+    li div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 2rem;
+      width: 100%;
+    }
+    a {
+      text-decoration: none;
+    }
+    #closeMenu {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      z-index: 3;
+    }
+    .hide_side_bar {
+      transform: translateX(0);
     }
     @media only screen and (max-width: 900px) {
       .user_info {
@@ -132,7 +173,12 @@
         height: 24rem;
       }
       .hide {
-        display: none !important;
+        opacity: 0;
+        pointer-events: none;
+      }
+      #closeMenu {
+        top: 1rem;
+        right: 1rem;
       }
     }
     .hideInfo {
@@ -142,7 +188,13 @@
 </head>
 <body>
   <main>
+    <div class="sideBar">
+      <h1>Your places</h1>
+      <ul id="placeList">
+      </ul>
+    </div>
     <div class="top_container">
+      <img id="closeMenu" src="images/icon-hamburger.svg" alt="cross" onclick="toggleMenu()">
       <h1 onclick="getLocation()" id="heading">IP Address Tracker</h1>
       <div class="input_container">
         <input class="inputBar" type="text" placeholder="Search for any IP address or domain">
