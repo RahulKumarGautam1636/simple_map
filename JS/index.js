@@ -12,9 +12,7 @@ function showDetails(item) {
 function closeInfo() {
   $(".user_info").toggleClass("hideInfo");
   $("#close").toggleClass("rotateClose");
-  setTimeout(function() {
-    $(".user_info div").toggleClass("hide");
-  },400);
+  $(".user_info div").toggleClass("hide");
 }
 function getLocation() {
    if (navigator.geolocation) {
@@ -76,21 +74,55 @@ var   place = {
   });
   marker.on('click', function(e) {
     mymap.flyTo(e.latlng, 14, {duration: 3})
+
   });
 }
 function renderPlaces(i) {
+  const ul = document.querySelector("#placeList");
+  while (ul.hasChildNodes()) {
+    ul.removeChild(ul.firstChild);
+  }
   i.forEach((item) => {
+    const div = document.createElement('div');
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    const del = document.createElement('img');
+    del.setAttribute("src", "images/icon-cross.svg");
+    a.innerText = item.name;
+    a.href = '#';
     L.marker(item.coord, {icon: myIcon}).addTo(mymap);
     var markers = L.marker(item.coord, {icon: myIcon});
-    markers.bindPopup(item.name, { closeButton: false, offset: L.point(0, -15) }).openPopup();
+    popUpContent(item.name, markers);
     markers.addTo(mymap);
-  });
-  markers.on('click', function(e) {
-    mymap.flyTo(e.latlng, 14, {duration: 3})
+    markers.addEventListener('click', () => {
+      flyToPlace(item.coord);
+    });
+    a.addEventListener('click', () => {
+      flyToPlace(item.coord);
+      toggleMenu();
+    });
+    div.appendChild(a);
+    div.appendChild(del);
+    li.appendChild(div);
+    ul.appendChild(li);
   });
 }
 
+function flyToPlace(c) {
+  mymap.flyTo(c, 14, {duration: 3})
+}
 
+function popUpContent(content, layer) {
+  layer.bindPopup(content, { closeButton: false, offset: L.point(0, -15) }).openPopup();
+}
+
+// function deletePlace() {
+//   console.log()
+// }
+function toggleMenu() {
+    $("#closeMenu").attr("src", (_, attr)=> attr=="images/icon-cross.svg"? "images/icon-hamburger.svg": "images/icon-cross.svg");
+    $(".sideBar").toggleClass("hide_side_bar");
+}
 
 
 
