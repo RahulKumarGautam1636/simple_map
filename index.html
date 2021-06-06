@@ -11,6 +11,10 @@
   <title>Frontend Mentor | IP Address Tracker</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sideText: #071346;
+      --userText: hsl(0, 0%, 17%);
+    }
     body { font-family: 'Rubik', sans-serif; }
     main { height: 54rem; width: 100%; }
     .top_container { height: 32%; width: 100%; display: flex; justify-content: center; align-items: center; position: relative;
@@ -100,19 +104,20 @@
       height: 100%;
       width: 23%;
       min-width: 21rem;
-      background: gray;
-      z-index: 2;
       display: flex;
       flex-direction: column;
       padding: 4rem;
       transition: 0.5s ease-in-out;
       transform: translateX(-100%);
+      z-index: 2;
+      background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
+      backdrop-filter: blur(0.5rem);
     }
     .sideBar h1 {
       margin: 2rem 0;
+      color: var(--sideText);
     }
     li {
-      margin: 1rem 0;
       list-style: none;
       font-size: 1.5rem;
     }
@@ -120,11 +125,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 2rem;
+      height: 5rem;
       width: 100%;
+      border-top: 1px solid var(--sideText);
     }
-    a {
+    li img {
+      width: 1rem;
+    }
+    li a {
       text-decoration: none;
+      color: var(--sideText);
+      transition: font-size 0.1s linear;
+    }
+    li a:hover {
+      font-size: 1.7rem;
     }
     #closeMenu {
       position: absolute;
@@ -145,10 +159,21 @@
       place-items: center;
       width: 4rem;
       border-radius: 50%;
-      background: cyan;
+      background: rgb(0, 227, 254, 0.6);
     }
     #reCenter_button {
       width: 1.5rem;
+    }
+    #placeList li:first-child div {
+      border: none;
+    }
+    .circle1, .circle2 {
+      background: linear-gradient( to right bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.3));
+      height: 15rem;
+      width: 15rem;
+      position: absolute;
+      border-radius: 50%;
+      display: none;
     }
     @media only screen and (max-width: 900px) {
       .user_info {
@@ -200,6 +225,12 @@
         right: 1.5rem;
       }
     }
+    @media only screen and (max-width: 376px) {
+      .sideBar {
+        min-width: auto;
+        width: 100%;
+      }
+    }
     .hideInfo {
       height: 3rem;
     }
@@ -215,6 +246,10 @@
       <h1>Your places</h1>
       <ul id="placeList">
       </ul>
+      <div class="circle1">
+      </div>
+      <div class="circle2">
+      </div>
     </div>
     <div class="top_container">
       <img id="closeMenu" src="images/icon-hamburger.svg" alt="cross" onclick="toggleMenu()">
