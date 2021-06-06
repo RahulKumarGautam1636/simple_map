@@ -21,10 +21,17 @@ function getLocation() {
      console.log("Your browser doesn't supports this geoLocation.");
    }
 }
-getLocation();
+// getLocation();
 function findLocation(position) {
   newLocation = [position.coords.latitude, position.coords.longitude];
-  getMap(newLocation);
+  // getMap(newLocation);
+  newmarker = L.marker(newLocation, {icon: myIcon});
+  newmarker.bindPopup("Your GPS location.", { closeButton: false, offset: L.point(0, -15) }).openPopup();
+  myGroup.addLayer(newmarker);
+  myGroup.addTo(mymap);
+  newmarker.on('dblclick', function(e) {
+    mymap.flyTo(e.latlng, 14, {duration: 3})
+  });
 }
 
 function showLocation(response) {
@@ -32,6 +39,7 @@ function showLocation(response) {
   var lat = response.loc.split(",")[0];
   var long = response.loc.split(",")[1];
   showDetails(response);
+  getMap([lat, long]);
   },"jsonp")
 }
 
@@ -43,7 +51,7 @@ places = list.filter((item, index) => {
     console.log(item.name+" "+rItem);
      return item.name !== rItem;
   })
-  console.log(placesGroup.getLayers());
+  // console.log(placesGroup.getLayers());
   renderPlaces(places);
 }
 function getMap(i) {
@@ -58,7 +66,7 @@ function getMap(i) {
       iconSize: [38, 55],
   });
   marker = L.marker(i, {icon: myIcon});
-var  myGroup = L.layerGroup([marker]);
+  myGroup = L.layerGroup([marker]);
 placesGroup = L.layerGroup();
   var popupContent = 'You are here.'
   marker.bindPopup(popupContent, { closeButton: false, offset: L.point(0, -15) }).openPopup();
@@ -129,8 +137,15 @@ function toggleMenu() {
 }
 
 var recenter = $(".reCenter_container");
+var checkGpsOn = false;
 function reCenter() {
-  mymap.flyTo(newLocation, 10, {duration: 3})
+  if (checkGpsOn) {
+    mymap.flyTo(newLocation, 10, {duration: 3});
+  } else {
+    myGroup.clearLayers();
+    getLocation();
+  }
+  checkGpsOn = true;
 }
 
 x = window.matchMedia("(max-width: 900px)");
