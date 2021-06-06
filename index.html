@@ -20,7 +20,7 @@
        background-size: cover;
     }
     #heading { transform: translateY(-73%); color: white; }
-    .user_info { transition: height 0.5s ease-in-out; padding: 0.7vw 0; height: 50%; width: 77%; position: absolute; top: 77%; border-radius: 10px; background: whitesmoke; display: flex; z-index: 1; overflow: hidden; box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;}
+    .user_info { transition: 0.5s ease-in-out; padding: 0.7vw 0; height: 50%; width: 77%; position: absolute; top: 77%; border-radius: 10px; background: whitesmoke; display: flex; z-index: 1; overflow: hidden; box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;}
     #myMap {
       height: 68%; width: 100%;
       z-index: 0;
@@ -135,6 +135,21 @@
     .hide_side_bar {
       transform: translateX(0);
     }
+    .reCenter_container {
+      position: fixed;
+      bottom: 4rem;
+      right: 5rem;
+      z-index: 1;
+      height: 4rem;
+      display: grid;
+      place-items: center;
+      width: 4rem;
+      border-radius: 50%;
+      background: cyan;
+    }
+    #reCenter_button {
+      width: 1.5rem;
+    }
     @media only screen and (max-width: 900px) {
       .user_info {
         flex-direction: column;
@@ -180,6 +195,10 @@
         top: 1rem;
         right: 1rem;
       }
+      .reCenter_container {
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
     }
     .hideInfo {
       height: 3rem;
@@ -188,6 +207,10 @@
 </head>
 <body>
   <main>
+    <div class="reCenter_container" onclick="reCenter()">
+      <img id="reCenter_button" src="images/icon-location.svg" alt="Recenter" onclick="reCenter()">
+      <!-- <p>Recenter</p> -->
+    </div>
     <div class="sideBar">
       <h1>Your places</h1>
       <ul id="placeList">
@@ -223,6 +246,7 @@
       </div>
     </div>
     <div id="myMap">
+
     </div>
   </main>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
