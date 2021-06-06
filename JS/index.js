@@ -24,29 +24,28 @@ function getLocation() {
 getLocation();
 function findLocation(position) {
   newLocation = [position.coords.latitude, position.coords.longitude];
-  // L.marker(newLocation, {icon: myIcon}).addTo(mymap);
-  // var popupContent = 'You are here.'
-  // marker.bindPopup(popupContent, { closeButton: false, offset: L.point(0, -15) }).openPopup();
-  // marker.addTo(mymap);
   getMap(newLocation);
 }
-// var mylocation = [22.511946299999998, 88.2235536]
+
 function showLocation(response) {
   jQuery.get("https://ipinfo.io", function(response) {
-    // console.log(response);
   var lat = response.loc.split(",")[0];
   var long = response.loc.split(",")[1];
-  // mylocation = [lat, long];
-  // console.log(mylocation);
-  // getMap(newLocation);
   showDetails(response);
   },"jsonp")
 }
 
 showLocation();
-// getLocation();
 
 places = [];
+function deletePlace(list, rItem) {
+places = list.filter((item, index) => {
+    console.log(item.name+" "+rItem);
+     return item.name !== rItem;
+  })
+  console.log(placesGroup.getLayers());
+  renderPlaces(places);
+}
 function getMap(i) {
   mymap = L.map('myMap').setView(i, 10);
   const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -59,9 +58,11 @@ function getMap(i) {
       iconSize: [38, 55],
   });
   marker = L.marker(i, {icon: myIcon});
+var  myGroup = L.layerGroup([marker]);
+placesGroup = L.layerGroup();
   var popupContent = 'You are here.'
   marker.bindPopup(popupContent, { closeButton: false, offset: L.point(0, -15) }).openPopup();
-  marker.addTo(mymap);
+  myGroup.addTo(mymap);
   mymap.on('click', function(e) {
     console.log(e.latlng);
 var item = prompt("Enter name for this place.");
@@ -72,9 +73,8 @@ var   place = {
     places.push(place);
     renderPlaces(places);
   });
-  marker.on('click', function(e) {
+  marker.on('dblclick', function(e) {
     mymap.flyTo(e.latlng, 14, {duration: 3})
-
   });
 }
 function renderPlaces(i) {
@@ -88,13 +88,19 @@ function renderPlaces(i) {
     const a = document.createElement('a');
     const del = document.createElement('img');
     del.setAttribute("src", "images/icon-cross.svg");
+    del.classList.add(item.name);
+    del.onclick = function () {
+    placesGroup.clearLayers();
+    deletePlace(i, this.className);
+    return;
+    };
+    console.log("DONE");
     a.innerText = item.name;
     a.href = '#';
-    L.marker(item.coord, {icon: myIcon}).addTo(mymap);
     var markers = L.marker(item.coord, {icon: myIcon});
     popUpContent(item.name, markers);
-    markers.addTo(mymap);
-    markers.addEventListener('click', () => {
+    placesGroup.addLayer(markers);
+    markers.addEventListener('dblclick', () => {
       flyToPlace(item.coord);
     });
     a.addEventListener('click', () => {
@@ -106,6 +112,7 @@ function renderPlaces(i) {
     li.appendChild(div);
     ul.appendChild(li);
   });
+  placesGroup.addTo(mymap);
 }
 
 function flyToPlace(c) {
@@ -116,24 +123,16 @@ function popUpContent(content, layer) {
   layer.bindPopup(content, { closeButton: false, offset: L.point(0, -15) }).openPopup();
 }
 
-// function deletePlace() {
-//   console.log()
-// }
 function toggleMenu() {
     $("#closeMenu").attr("src", (_, attr)=> attr=="images/icon-cross.svg"? "images/icon-hamburger.svg": "images/icon-cross.svg");
     $(".sideBar").toggleClass("hide_side_bar");
 }
 
+var recenter = $(".reCenter_container");
+function reCenter() {
+  mymap.flyTo(newLocation, 10, {duration: 3})
+}
 
-
-
-
-
-
-// var newItem = document.querySelector(".inputBar");
-
-
-// findLocation();
 x = window.matchMedia("(max-width: 900px)");
 myFunction(x);
 x.addListener(myFunction);
