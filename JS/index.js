@@ -145,7 +145,7 @@ function renderThis(mark, popUp, group) {
 }
 
 // var findThis = document.querySelector(".inputBar");
-// function findNew(response) {
+function findNew() {
 //   console.log(findThis.value);
 //   jQuery.get("https://tools.keycdn.com/geo.json?host={2409:4060:413:aed1:9441:95f3:c779:c45f}", function(response) {
 //   // var lat = response.loc.split(",")[0];
@@ -153,7 +153,23 @@ function renderThis(mark, popUp, group) {
 //   console.log(response);
 //   // getMap([lat, long]);
 //   },"jsonp")
-// }
+   
+   $.ajax({
+         url: "https://rahulkumargautam1636.github.io/simple_map/",
+         type: "GET",
+         crossDomain: true,
+         // data: JSON.stringify(somejson),
+         // dataType: "json",
+         success: function (response) {
+             var resp = JSON.parse(response)
+             alert(resp.status);
+         },
+         error: function (xhr, status) {
+             alert("error");
+         }
+     });
+
+}
 
 x = window.matchMedia("(max-width: 900px)");
 myFunction(x);
