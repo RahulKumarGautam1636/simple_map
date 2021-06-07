@@ -171,10 +171,11 @@ function findNew() {
   jQuery.get("https://geo.ipify.org/api/v1?apiKey=at_nf6K91Bp5z0IdHWzspRMGJdnrm0hy&ipAddress="+findThis.value, function(response) {
   console.log(response);
 var  searchedLocation = [response.location.lat, response.location.lng];
-  searchedMarker = L.marker(searchedLocation, {icon: myIcon});
-  searchedGroup = L.layerGroup();
-  renderThis(searchedMarker, response.as.domain, searchedGroup);
-  flyToPlace(searchedLocation, response.as.domain);
-// searchedMarker.openPopup();
+    myLocationList(response.as.domain, searchedLocation);
+//  searchedMarker = L.marker(searchedLocation, {icon: myIcon});
+//  searchedGroup = L.layerGroup();
+//  renderThis(searchedMarker, response.as.domain, searchedGroup);
+    flyToPlace(searchedLocation, response.as.domain);
+//  searchedMarker.openPopup();
   })
 }
