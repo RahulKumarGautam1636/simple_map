@@ -144,9 +144,9 @@ var recenter = $(".reCenter_container");
 var isGPSon = false;
 recenter.on('click', function() {
   if (isGPSon) {
-    flyToPlace(newLocation, "MyGPSLocation");
+    mymap.flyTo(newLocation , 9, {duration: 3});
   } else {
-    flyToPlace(ipLocation, "MyIPLocation");
+    mymap.flyTo(ipLocation, 9, {duration: 3});
   }
 });
 recenter.on('dblclick', function(e) {
