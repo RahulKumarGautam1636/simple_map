@@ -21,17 +21,11 @@ function getLocation() {
      console.log("Your browser doesn't supports this geoLocation.");
    }
 }
-// getLocation();
+
 function findLocation(position) {
   newLocation = [position.coords.latitude, position.coords.longitude];
-  // getMap(newLocation);
   newmarker = L.marker(newLocation, {icon: myIcon});
-  newmarker.bindPopup("Your GPS location.", { closeButton: false, offset: L.point(0, -15) }).openPopup();
-  myGroup.addLayer(newmarker);
-  myGroup.addTo(mymap);
-  newmarker.on('dblclick', function(e) {
-    mymap.flyTo(e.latlng, 14, {duration: 3})
-  });
+  renderThis(newmarker, "Your GPS location.", myGroup);
 }
 
 function showLocation(response) {
@@ -51,14 +45,12 @@ places = list.filter((item, index) => {
     console.log(item.name+" "+rItem);
      return item.name !== rItem;
   })
-  // console.log(placesGroup.getLayers());
   renderPlaces(places);
 }
 function getMap(i) {
   mymap = L.map('myMap').setView(i, 10);
   const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  const attribution =
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Coded by Rahul Kumar Gautam with ❤️';
+  const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Coded by Rahul Kumar Gautam with ❤️';
   const tileLayer = L.tileLayer(tileUrl, { attribution });
   tileLayer.addTo(mymap);
   myIcon = L.icon({
@@ -66,11 +58,13 @@ function getMap(i) {
       iconSize: [38, 55],
   });
   marker = L.marker(i, {icon: myIcon});
-  myGroup = L.layerGroup([marker]);
-placesGroup = L.layerGroup();
-  var popupContent = 'You are here.'
-  marker.bindPopup(popupContent, { closeButton: false, offset: L.point(0, -15) }).openPopup();
-  myGroup.addTo(mymap);
+  myGroup = L.layerGroup();
+  renderThis(marker, "You are here.", myGroup);
+  placesGroup = L.layerGroup();
+  newPlaceList();
+}
+
+function newPlaceList() {
   mymap.on('click', function(e) {
     console.log(e.latlng);
 var item = prompt("Enter name for this place.");
@@ -81,10 +75,8 @@ var   place = {
     places.push(place);
     renderPlaces(places);
   });
-  marker.on('dblclick', function(e) {
-    mymap.flyTo(e.latlng, 14, {duration: 3})
-  });
 }
+
 function renderPlaces(i) {
   const ul = document.querySelector("#placeList");
   while (ul.hasChildNodes()) {
@@ -102,15 +94,10 @@ function renderPlaces(i) {
     deletePlace(i, this.className);
     return;
     };
-    console.log("DONE");
     a.innerText = item.name;
     a.href = '#';
     var markers = L.marker(item.coord, {icon: myIcon});
-    popUpContent(item.name, markers);
-    placesGroup.addLayer(markers);
-    markers.addEventListener('dblclick', () => {
-      flyToPlace(item.coord);
-    });
+    renderThis(markers, item.name, placesGroup);
     a.addEventListener('click', () => {
       flyToPlace(item.coord);
       toggleMenu();
@@ -139,14 +126,34 @@ function toggleMenu() {
 var recenter = $(".reCenter_container");
 var checkGpsOn = false;
 function reCenter() {
-  if (checkGpsOn) {
+if (checkGpsOn) {
     mymap.flyTo(newLocation, 10, {duration: 3});
   } else {
     myGroup.clearLayers();
     getLocation();
+    checkGpsOn = true;
   }
-  checkGpsOn = true;
 }
+
+function renderThis(mark, popUp, group) {
+  mark.bindPopup(popUp, { closeButton: false, offset: L.point(0, -15) }).openPopup();
+  group.addLayer(mark);
+  group.addTo(mymap);
+  mark.on('dblclick', function(e) {
+    mymap.flyTo(e.latlng, 14, {duration: 3})
+  });
+}
+
+// var findThis = document.querySelector(".inputBar");
+// function findNew(response) {
+//   console.log(findThis.value);
+//   jQuery.get("https://tools.keycdn.com/geo.json?host={2409:4060:413:aed1:9441:95f3:c779:c45f}", function(response) {
+//   // var lat = response.loc.split(",")[0];
+//   // var long = response.loc.split(",")[1];
+//   console.log(response);
+//   // getMap([lat, long]);
+//   },"jsonp")
+// }
 
 x = window.matchMedia("(max-width: 900px)");
 myFunction(x);
