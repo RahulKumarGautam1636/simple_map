@@ -174,7 +174,7 @@ var  searchedLocation = [response.location.lat, response.location.lng];
   searchedMarker = L.marker(searchedLocation, {icon: myIcon});
   searchedGroup = L.layerGroup();
   renderThis(searchedMarker, response.as.domain, searchedGroup);
-  flyToPlace(searchedLocation);
-  searchedMarker.openPopup();
+  flyToPlace(searchedLocation, response.as.domain);
+// searchedMarker.openPopup();
   })
 }
