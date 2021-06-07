@@ -158,11 +158,8 @@ function findNew() {
          url: "https://rahulkumargautam1636.github.io/simple_map/",
          type: "GET",
          crossDomain: true,
-         // data: JSON.stringify(somejson),
-         // dataType: "json",
          success: function (response) {
-             var resp = JSON.parse(response)
-             alert(resp.status);
+               console.log(response);
          },
          error: function (xhr, status) {
              alert("error");
