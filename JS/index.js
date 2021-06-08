@@ -64,8 +64,9 @@ function getMap(i) {
 }
 
 function newPlaceList() {
-  mymap.on('click', function(e) {
-var item = prompt("Enter name for this place.");
+ var count = 1; 
+ mymap.on('click', function(e) {
+var item = prompt("Enter name for this place.", "New-Place-"+count);
 trimName(item);
 var   place = {
       name: listItem,
@@ -73,6 +74,7 @@ var   place = {
     }
     places.push(place);
     renderPlaces(places);
+    count++
   });
 }
 
