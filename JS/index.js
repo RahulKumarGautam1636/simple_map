@@ -1,3 +1,4 @@
+
 var myIp = $("#myIp");
 var myLocation = $("#myLocation");
 var myTimezone = $("#myTimezone");
@@ -65,8 +66,9 @@ function getMap(i) {
 function newPlaceList() {
   mymap.on('click', function(e) {
 var item = prompt("Enter name for this place.");
+trimName(item);
 var   place = {
-      name: item,
+      name: listItem,
       coord: e.latlng
     }
     places.push(place);
@@ -75,12 +77,23 @@ var   place = {
 }
 
 function myLocationList(itemName, coords) {
+  trimName(itemName)
   var   place = {
-        name: itemName,
+        name: listItem,
         coord: coords
       }
       places.push(place);
       renderPlaces(places);
+}
+
+function trimName(item) {
+  if (item.includes(" ")) {
+    return listItem = item.split(" ")[0]+"-"+item.split(" ")[1].substr(0, 18);
+  } else if (item.includes("www")) {
+    return listItem = item.split("www.")[1].substr(0, 20);
+  } else {
+    return listItem = item.substr(0, 18);
+  }
 }
 
 function createList(name) {
