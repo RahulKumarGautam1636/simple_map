@@ -43,6 +43,7 @@
       border: none;
       padding-left: 1.7rem;
       border-radius: 10px 0 0 10px;
+      outline: none;
     }
     .inputButton {
       border: none;
@@ -50,6 +51,7 @@
       width: 3.2rem;
       padding-top: 1%;
       background: black;
+      outline: none;
       border-radius: 0 15px 15px 0;
     }
     .user_info div {
@@ -91,7 +93,7 @@
       transform: rotate(90deg) !important;
     }
     #myIsp::-webkit-scrollbar {
-      width: 5px;
+      width: 3px;
     }
     #myIsp::-webkit-scrollbar-thumb {
       background: hsl(0, 0%, 59%);
@@ -99,6 +101,7 @@
     .sideBar {
       position: absolute;
       height: 100%;
+      overflow-y: scroll;
       width: 23%;
       min-width: 25rem;
       align-items: center;
@@ -110,6 +113,12 @@
       z-index: 2;
       background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
       backdrop-filter: blur(0.5rem);
+    }
+    .sideBar::-webkit-scrollbar {
+      width: 3px;
+    }
+    .sideBar::-webkit-scrollbar-thumb {
+      background: hsl(0, 0%, 59%);
     }
     ul {
       display: flex;
@@ -140,10 +149,11 @@
     li a {
       text-decoration: none;
       color: var(--sideText);
-      transition: font-size 0.1s linear;
+      transition: transform 0.1s linear;
     }
     li a:hover {
       color: red;
+      transform: translateY(-5px);
     }
     #closeMenu {
       position: absolute;
@@ -206,7 +216,10 @@
         overflow-y: none;
       }
       li a {
-        font-size: clamp(1rem, 5.8vw, 1.6rem);
+        font-size: clamp(1rem, 5.3vw, 1.35rem);
+      }
+      li img {
+        width: clamp(0.3rem, 4vw, 1rem);
       }
       .user_info h1 {
         font-size: clamp(1rem, 6.5vw, 1.4rem);
@@ -262,7 +275,7 @@
       <h1 id="heading">IP Address Tracker</h1>
       <div class="input_container">
         <input class="inputBar" type="text" placeholder="Search for any IP address or domain">
-        <button class="inputButton" type="button" name="button" onclick="findNew()">
+        <button id="btn" class="inputButton" type="button" name="button" onclick="findNew()">
           <img src="images/icon-arrow.svg" alt="arrow">
         </button>
     </div>
