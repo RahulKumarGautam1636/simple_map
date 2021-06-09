@@ -23,19 +23,19 @@
        background-repeat: no-repeat;
        background-size: cover;
     }
-    #heading { transform: translateY(-73%); color: white; }
-    .user_info { transition: 0.5s ease-in-out; padding: 0.7vw 0; height: 50%; width: 77%; position: absolute; top: 77%; border-radius: 10px; background: whitesmoke; display: flex; z-index: 1; overflow: hidden; box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;}
+    #heading { transform: translateY(-106%); color: white; }
+    .user_info { transition: 0.5s ease-in-out; padding: 0.7vw 0; height: 47%; width: 73%; position: absolute; top: 80%; border-radius: 10px; background: whitesmoke; display: flex; z-index: 1; overflow: hidden; box-shadow: rgb(17 17 26 / 10%) 0px 4px 16px, rgb(0 0 255 / 22%) 0px 8px 24px; }
     #myMap {
       height: 68%; width: 100%;
       z-index: 0;
     }
     .input_container {
-      height: 2.7rem;
-      width: 50%;
-      max-width: 36rem;
+      height: 3rem;
+      width: 41%;
+      max-width: 40rem;
       margin-bottom: 1rem;
       display: flex;
-      min-width: 19rem;
+      min-width: 25rem;
     }
     .inputBar {
       height: 100%;
@@ -70,13 +70,13 @@
       overflow-y: scroll;
     }
     .user_info h1 {
-      font-size: clamp(1.25rem, 1.9vw, 1.7rem);
+      font-size: clamp(1.25rem, 1.9vw, 1.5rem);
       color: hsl(0, 0%, 17%);
       font-weight: 500;
     }
     p {
       margin: 1.5rem 0 0.8rem 0;
-      font-size: 0.9vw;
+      font-size: 0.85vw;
       font-weight: 500;
       letter-spacing: 1px;
       color: hsl(0, 0%, 59%);
@@ -182,14 +182,6 @@
     #placeList li:first-child div {
       border: none;
     }
-    .circle1, .circle2 {
-      background: linear-gradient( to right bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.3));
-      height: 15rem;
-      width: 15rem;
-      position: absolute;
-      border-radius: 50%;
-      display: none;
-    }
     @media only screen and (max-width: 900px) {
       .user_info {
         flex-direction: column;
@@ -249,6 +241,15 @@
         min-width: auto;
         width: 90%;
       }
+      #heading {
+        transform: translateY(-88%);
+        font-size: clamp(0.5rem, 9vw, 2.2rem);
+      }
+      .input_container {
+        height: 2.7rem;
+        min-width: auto;
+        width: 88%;
+      }
     }
     .hideInfo {
       height: 3rem;
@@ -259,7 +260,6 @@
   <main>
     <div class="reCenter_container">
       <img id="reCenter_button" src="images/icon-location.svg" alt="Recenter">
-      <!-- <p>Recenter</p> -->
     </div>
     <div class="sideBar">
       <h1>Your places</h1>
@@ -272,7 +272,7 @@
     </div>
     <div class="top_container">
       <img id="closeMenu" src="images/icon-hamburger.svg" alt="cross" onclick="toggleMenu()">
-      <h1 id="heading">IP Address Tracker</h1>
+      <h1 id="heading" onclick="saveList()">IP Address Tracker</h1>
       <div class="input_container">
         <input class="inputBar" type="text" placeholder="Search for any IP address or domain">
         <button id="btn" class="inputButton" type="button" name="button" onclick="findNew()">
@@ -283,11 +283,11 @@
         <img id="close" src="images/icon-close.svg" alt="close" onclick="closeInfo()">
         <div style="border: none">
           <p>IP ADDRESS</p>
-          <h1 id="myIp"></h1>
+          <h1 id="myIp" onclick="getList()"></h1>
         </div>
         <div>
           <p>LOCATION</p>
-          <h1 id="myLocation"></h1>
+          <h1 id="myLocation" onclick="removeList()"></h1>
         </div>
         <div>
           <p>TIMEZONE</p>
