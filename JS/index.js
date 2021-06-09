@@ -1,21 +1,22 @@
-
 var myIp = $("#myIp");
 var myLocation = $("#myLocation");
 var myTimezone = $("#myTimezone");
 var myIsp = $("#myIsp");
 
-function showDetails(item) {
+function showDetails(item) {           // Show details to user.
    myIp.text(item.ip);
    myLocation.text(item.city);
    myTimezone.text(item.timezone);
    myIsp.text(item.org);
 }
-function closeInfo() {
+
+function closeInfo() {                       // Close the info field for better view of map.
   $(".user_info").toggleClass("hideInfo");
   $("#close").toggleClass("rotateClose");
   $(".user_info div").toggleClass("hide");
 }
-function getLocation() {
+
+function getLocation() {                // Get your Geolocation coordinates.
    if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(findLocation);
    } else {
@@ -23,32 +24,34 @@ function getLocation() {
    }
 }
 
-function findLocation(position) {
+function findLocation(position) {            // Mark your GPS location on map.
   newLocation = [position.coords.latitude, position.coords.longitude];
-  myLocationList("MyGPSLocation", newLocation);
+  myLocationList("My-GPS-Location", newLocation);
+  mymap.flyTo(newLocation , 14, {duration: 3});
 }
 
-function showLocation(response) {
+function showLocation(response) {             // Get User's IP information from ipinfo api.
   jQuery.get("https://ipinfo.io", function(response) {
   var lat = response.loc.split(",")[0];
   var long = response.loc.split(",")[1];
   showDetails(response);
   ipLocation = [lat, long];
-  getMap(ipLocation);
+  getMap(ipLocation);                  // Mark User's location according to his IP address.
   },"jsonp")
 }
 
 showLocation();
 
-places = [];
-function deletePlace(list, rItem) {
+places = [];              // List of places marked on map.
+
+function deletePlace(list, rItem) {        // Deletes an item from place's list.
 places = list.filter((item, index) => {
-    console.log(item.name+" "+rItem);
+    // console.log(item.name+" "+rItem);
      return item.name !== rItem;
   })
-  renderPlaces(places);
+  renderPlaces(places);      // Mark each item of place's list on map.
 }
-function getMap(i) {
+function getMap(i) {         // Initialise and get the map from leaflet.js
   mymap = L.map('myMap').setView(i, 10);
   const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Coded by Rahul Kumar Gautam with ❤️';
@@ -59,16 +62,16 @@ function getMap(i) {
       iconSize: [38, 55],
   });
   placesGroup = L.layerGroup();
-  myLocationList("MyIPLocation", i);
+  myLocationList("My-IP-Location", i);
   newPlaceList();
 }
 
-function newPlaceList() {
- var count = 1; 
+function newPlaceList() {          // trigger prompt to enter name when user clicks on map.
+ var count = 1;
  mymap.on('click', function(e) {
 var item = prompt("Enter name for this place.", "New-Place-"+count);
 trimName(item);
-var   place = {
+var   place = {                   // Create new item and add in marked places list.
       name: listItem,
       coord: e.latlng
     }
@@ -78,7 +81,7 @@ var   place = {
   });
 }
 
-function myLocationList(itemName, coords) {
+function myLocationList(itemName, coords) {  // Generate user's location item.
   trimName(itemName)
   var   place = {
         name: listItem,
@@ -88,7 +91,7 @@ function myLocationList(itemName, coords) {
       renderPlaces(places);
 }
 
-function trimName(item) {
+function trimName(item) {        // Adjust name of places.
   if (item.includes(" ")) {
     return listItem = item.split(" ")[0]+"-"+item.split(" ")[1].substr(0, 18);
   } else if (item.includes("www")) {
@@ -98,7 +101,7 @@ function trimName(item) {
   }
 }
 
-function createList(name) {
+function createList(name) {       // Create Unordered list to show in sideBar.
    div = document.createElement('div');
    li = document.createElement('li');
    a = document.createElement('a');
@@ -113,7 +116,7 @@ function createList(name) {
 }
 
 const ul = document.querySelector("#placeList");
-function renderPlaces(i) {
+function renderPlaces(i) {        // Render each list item on map.
   while (ul.hasChildNodes()) {
     ul.removeChild(ul.firstChild);
   }
@@ -136,7 +139,7 @@ var  markers = L.marker(item.coord, {icon: myIcon});
   placesGroup.addTo(mymap);
 }
 
-function flyToPlace(c, p) {
+function flyToPlace(c, p) {           // Visit places on map by just a click.
   mymap.flyTo(c, 14, {duration: 3});
   setTimeout(() => {
     L.popup({ closeButton: false, offset: L.point(0, -17) })
@@ -146,22 +149,22 @@ function flyToPlace(c, p) {
 }, 3000);
 }
 
-function popUpContent(content, layer) {
+function popUpContent(content, layer) {     // Opens popUps binded on each marker on map.
   layer.bindPopup(content, { closeButton: false, offset: L.point(0, -15) }).openPopup();
 }
 
-function toggleMenu() {
+function toggleMenu() {       // Open or Close the sideBar.
     $("#closeMenu").attr("src", (_, attr)=> attr=="images/icon-cross.svg"? "images/icon-hamburger.svg": "images/icon-cross.svg");
     $(".sideBar").toggleClass("hide_side_bar");
 }
 
 var recenter = $(".reCenter_container");
-var isGPSon = false;
+var isGPSon = false;              // Turns on the GPS for Geolocation.
 recenter.on('click', function() {
   if (isGPSon) {
-    mymap.flyTo(newLocation , 9, {duration: 3});
+    mymap.flyTo(newLocation , 10, {duration: 3});
   } else {
-    mymap.flyTo(ipLocation, 9, {duration: 3});
+    mymap.flyTo(ipLocation, 10, {duration: 3});
   }
 });
 recenter.on('dblclick', function(e) {
@@ -171,7 +174,7 @@ recenter.on('dblclick', function(e) {
   }
 });
 
-function renderThis(mark, popUp, group) {
+function renderThis(mark, popUp, group) {        // Renders each place list item on map.
   mark.bindPopup(popUp, { closeButton: false, offset: L.point(0, -17) }).openPopup();
   group.addLayer(mark);
   group.addTo(mymap);
@@ -180,25 +183,9 @@ function renderThis(mark, popUp, group) {
   });
 }
 
-// var findThis = document.querySelector(".inputBar");
-// function findNew() {
-//   console.log(findThis.value);
-//   jQuery.get("https://geo.ipify.org/api/v1?apiKey=at_nf6K91Bp5z0IdHWzspRMGJdnrm0hy&ipAddress="+findThis.value, function(response) {
-//   console.log(response);
-// var  searchedLocation = [response.location.lat, response.location.lng];
-//     myLocationList(response.as.domain, searchedLocation);
-// //  searchedMarker = L.marker(searchedLocation, {icon: myIcon});
-// //  searchedGroup = L.layerGroup();
-// //  renderThis(searchedMarker, response.as.domain, searchedGroup);
-//     flyToPlace(searchedLocation, response.as.domain);
-// //  searchedMarker.openPopup();
-//   })
-// }
-
 var inputBar = document.querySelector(".inputBar");
-function findNew() {
-  // console.log(inputBar.value);
-  // jQuery.get("https://geo.ipify.org/api/v1?apiKey=at_nf6K91Bp5z0IdHWzspRMGJdnrm0hy&ipAddress="+inputBar.value, function(response) {
+
+function findNew() {           // Get the details of user entered IP address.
     jQuery.get("https://ipinfo.io/"+inputBar.value, function(response) {
   console.log(response);
 var  searchedLocation = [response.loc.split(",")[0], response.loc.split(",")[1]];
