@@ -180,17 +180,30 @@ function renderThis(mark, popUp, group) {
   });
 }
 
-var findThis = document.querySelector(".inputBar");
+// var findThis = document.querySelector(".inputBar");
+// function findNew() {
+//   console.log(findThis.value);
+//   jQuery.get("https://geo.ipify.org/api/v1?apiKey=at_nf6K91Bp5z0IdHWzspRMGJdnrm0hy&ipAddress="+findThis.value, function(response) {
+//   console.log(response);
+// var  searchedLocation = [response.location.lat, response.location.lng];
+//     myLocationList(response.as.domain, searchedLocation);
+// //  searchedMarker = L.marker(searchedLocation, {icon: myIcon});
+// //  searchedGroup = L.layerGroup();
+// //  renderThis(searchedMarker, response.as.domain, searchedGroup);
+//     flyToPlace(searchedLocation, response.as.domain);
+// //  searchedMarker.openPopup();
+//   })
+// }
+
+var inputBar = document.querySelector(".inputBar");
 function findNew() {
-  console.log(findThis.value);
-  jQuery.get("https://geo.ipify.org/api/v1?apiKey=at_nf6K91Bp5z0IdHWzspRMGJdnrm0hy&ipAddress="+findThis.value, function(response) {
+  // console.log(inputBar.value);
+  // jQuery.get("https://geo.ipify.org/api/v1?apiKey=at_nf6K91Bp5z0IdHWzspRMGJdnrm0hy&ipAddress="+inputBar.value, function(response) {
+    jQuery.get("https://ipinfo.io/"+inputBar.value, function(response) {
   console.log(response);
-var  searchedLocation = [response.location.lat, response.location.lng];
-    myLocationList(response.as.domain, searchedLocation);
-//  searchedMarker = L.marker(searchedLocation, {icon: myIcon});
-//  searchedGroup = L.layerGroup();
-//  renderThis(searchedMarker, response.as.domain, searchedGroup);
-    flyToPlace(searchedLocation, response.as.domain);
-//  searchedMarker.openPopup();
-  })
+var  searchedLocation = [response.loc.split(",")[0], response.loc.split(",")[1]];
+    myLocationList(response.org, searchedLocation);
+    flyToPlace(searchedLocation, response.org);
+    showDetails(response);
+  },"jsonp")
 }
