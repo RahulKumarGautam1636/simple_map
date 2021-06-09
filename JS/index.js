@@ -42,14 +42,14 @@ function showLocation(response) {             // Get User's IP information from 
 
 showLocation();
 
-places = [];              // List of places marked on map.
+places = getList();           // List of places marked on map.
 
 function deletePlace(list, rItem) {        // Deletes an item from place's list.
 places = list.filter((item, index) => {
-    // console.log(item.name+" "+rItem);
      return item.name !== rItem;
   })
-  renderPlaces(places);      // Mark each item of place's list on map.
+  renderPlaces(places);
+  saveList(places);      // Mark each item of place's list on map.
 }
 function getMap(i) {         // Initialise and get the map from leaflet.js
   mymap = L.map('myMap').setView(i, 10);
@@ -62,6 +62,7 @@ function getMap(i) {         // Initialise and get the map from leaflet.js
       iconSize: [38, 55],
   });
   placesGroup = L.layerGroup();
+  // ckeckDuplicate(places, "My-IP-Location", i);
   myLocationList("My-IP-Location", i);
   newPlaceList();
 }
@@ -77,6 +78,7 @@ var   place = {                   // Create new item and add in marked places li
     }
     places.push(place);
     renderPlaces(places);
+    saveList(places);
     count++
   });
 }
@@ -89,6 +91,7 @@ function myLocationList(itemName, coords) {  // Generate user's location item.
       }
       places.push(place);
       renderPlaces(places);
+      // saveList(places);
 }
 
 function trimName(item) {        // Adjust name of places.
@@ -193,4 +196,42 @@ var  searchedLocation = [response.loc.split(",")[0], response.loc.split(",")[1]]
     flyToPlace(searchedLocation, response.org);
     showDetails(response);
   },"jsonp")
+}
+
+function saveList(list) {
+  str = JSON.stringify(list);
+  localStorage.setItem("myList", str);
+}
+
+function getList() {
+  savedList = localStorage.getItem("myList");
+  savedList = JSON.parse(savedList);
+  if (!savedList) {
+    return [];
+  } else {
+    deleteThis(savedList);
+    console.log(savedList);
+    return sList;
+  }
+}
+
+function deleteThis(savedList) {        // Deletes an item from place's list.
+sList = savedList.filter((item, index) => {
+     return item.name !== "My-IP-Location" && item.name !== "My-GPS-Location";
+  })
+  return sList;
+}
+
+function removeList() {
+  localStorage.removeItem("myList");
+}
+
+function ckeckDuplicate(l, s, j) {
+  for (var i=0; i<l.length; i++) {
+    if (l[i].name===s) {
+      alert("item aready exist.");
+      return;
+    }
+  }
+  console.log("done");
 }
