@@ -98,8 +98,6 @@ p {
   display: flex;
   flex-direction: column;
   padding: 3rem 0;
-  /* transition: 0.5s ease-in-out; */
-  /* transform: translateX(-100%); */
 }
 .sideBar::-webkit-scrollbar {
   width: 3px;
@@ -186,6 +184,7 @@ li a:hover {
   align-items: center;
   border-radius: 0 14px 14px 0;
   margin-right: -2rem;
+  transform: translateY(8rem);
 }
 .hide_side_bar {
   transform: translateX(0);
