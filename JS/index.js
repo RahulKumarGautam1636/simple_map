@@ -62,9 +62,15 @@ function getMap(i) {         // Initialise and get the map from leaflet.js
       iconSize: [36, 45],
   });
   placesGroup = L.layerGroup();
-  // ckeckDuplicate(places, "My-IP-Location", i);
   myLocationList("My-IP-Location", i);
   newPlaceList();
+  var osm = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"),
+      mqi = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYnVuZWUiLCJhIjoiY2twMmMwaHp6MHlnZzJ1bnY3ajkyb2ZxdiJ9.MFhCgoXigWv6Kk_lUVLvIg")
+  var baseMaps = {
+      "Street view": osm,
+      "Satellite view": mqi
+  };
+  L.control.layers(baseMaps,null, {position: 'topright'}).addTo(mymap);  // Add a layer with satellite view.
 }
 
 function newPlaceList() {          // trigger prompt to enter name when user clicks on map.
