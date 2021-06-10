@@ -72,7 +72,7 @@ function newPlaceList() {          // trigger prompt to enter name when user cli
  mymap.on('click', function(e) {
 var item = prompt("Enter name for this place.", "New-Place-"+count);
 trimName(item);
-if (checkDuplicate(places, listItem)) {
+if (checkDuplicate(places, listItem)) {        // check if name already exist in the places list.
   alert("Name already exist, use different name.");
   return;
 }
@@ -156,8 +156,8 @@ function flyToPlace(c, p) {           // Visit places on map by just a click.
 }
 
 function toggleMenu() {       // Open or Close the sideBar.
-    $("#closeMenu").attr("src", (_, attr)=> attr=="images/icon-cross.svg"? "images/icon-hamburger.svg": "images/icon-cross.svg");
-    $(".sideBar").toggleClass("hide_side_bar");
+    $("#closeMenu").toggleClass("rotateClose2");
+    $(".sideBar-container").toggleClass("hide_side_bar");
 }
 
 var recenter = $(".reCenter_container");
@@ -197,12 +197,12 @@ var  searchedLocation = [response.loc.split(",")[0], response.loc.split(",")[1]]
   },"jsonp")
 }
 
-function saveList(list) {
+function saveList(list) {         // Save place list in localstorage.
   str = JSON.stringify(list);
   localStorage.setItem("myList", str);
 }
 
-function getList() {
+function getList() {              // Get saved place list from local storage.
   savedList = localStorage.getItem("myList");
   savedList = JSON.parse(savedList);
   if (!savedList) {
@@ -214,18 +214,18 @@ function getList() {
   }
 }
 
-function deleteThis(savedList) {        // Deletes an item from place's list.
+function deleteThis(savedList) {        // Deletes GPS and IP location item from place's list to avoid duplicate items.
 sList = savedList.filter((item, index) => {
      return item.name !== "My-IP-Location" && item.name !== "My-GPS-Location";
   })
   return sList;
 }
 
-function removeList() {
+function removeList() {               // Remove whole list saved in localStorage.
   localStorage.removeItem("myList");
 }
 
-function checkDuplicate(l, s) {
+function checkDuplicate(l, s) {       // Cheks duplicate items in places list.
   for (var i=0; i<l.length; i++) {
     if (l[i].name===s) {
       // alert("item aready exist.");
