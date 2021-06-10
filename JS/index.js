@@ -59,7 +59,7 @@ function getMap(i) {         // Initialise and get the map from leaflet.js
   tileLayer.addTo(mymap);
   myIcon = L.icon({
       iconUrl: 'images/icon-location.svg',
-      iconSize: [38, 55],
+      iconSize: [36, 45],
   });
   placesGroup = L.layerGroup();
   // ckeckDuplicate(places, "My-IP-Location", i);
@@ -72,6 +72,10 @@ function newPlaceList() {          // trigger prompt to enter name when user cli
  mymap.on('click', function(e) {
 var item = prompt("Enter name for this place.", "New-Place-"+count);
 trimName(item);
+if (checkDuplicate(places, listItem)) {
+  alert("Name already exist, use different name.");
+  return;
+}
 var   place = {                   // Create new item and add in marked places list.
       name: listItem,
       coord: e.latlng
@@ -91,7 +95,6 @@ function myLocationList(itemName, coords) {  // Generate user's location item.
       }
       places.push(place);
       renderPlaces(places);
-      // saveList(places);
 }
 
 function trimName(item) {        // Adjust name of places.
@@ -150,10 +153,6 @@ function flyToPlace(c, p) {           // Visit places on map by just a click.
    .setContent(p)
    .openOn(mymap);
 }, 3000);
-}
-
-function popUpContent(content, layer) {     // Opens popUps binded on each marker on map.
-  layer.bindPopup(content, { closeButton: false, offset: L.point(0, -15) }).openPopup();
 }
 
 function toggleMenu() {       // Open or Close the sideBar.
@@ -226,12 +225,12 @@ function removeList() {
   localStorage.removeItem("myList");
 }
 
-function ckeckDuplicate(l, s, j) {
+function checkDuplicate(l, s) {
   for (var i=0; i<l.length; i++) {
     if (l[i].name===s) {
-      alert("item aready exist.");
-      return;
+      // alert("item aready exist.");
+      return true;
     }
   }
-  console.log("done");
+  return false;
 }
