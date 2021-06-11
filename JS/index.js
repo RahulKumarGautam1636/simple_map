@@ -36,24 +36,14 @@ function showLocation(response) {             // Get User's IP information from 
   var long = response.loc.split(",")[1];
   showDetails(response);
   ipLocation = [lat, long];
-  // getMap(ipLocation);
-  getMap(["22.5626", "88.3630"]);                  // Mark User's location according to his IP address.
+  getMap(ipLocation);                          // Mark User's location according to his IP address.
   },"jsonp")
 }
 
 showLocation();
 
-// places = getList();           // List of places marked on map.
-places = [ {coord: {lat: 22.466621200268307, lng: 88.09936523437501},
-           name: "New-Place-1"},
-           {coord: {lat: 22.651618597841587, lng: 88.8739013671875},
-           name: "New-Place-2"},
-           {coord: {lat: 22.30676701452665, lng: 88.67614746093751},
-           name: "New-Place-3"},
-           {coord: {lat: 22.760473265526123, lng: 88.2366943359375},
-           name: "New-Place-4"},
-           {coord: {lat: 22.732634962222743, lng: 88.03747255017916},
-           name: "New-Place-5"} ];
+places = getList();           // List of places marked on map.
+
 function deletePlace(list, rItem) {        // Deletes an item from place's list.
 places = list.filter((item, index) => {
      return item.name !== rItem;
