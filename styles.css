@@ -169,7 +169,7 @@ li a:hover {
   display: flex;
   width: 23%;
   transition: transform 0.7s ease-in-out;
-/*   transform: translateX(-100%); */
+  transform: translateX(-100%);
   z-index: 2;
   background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
   backdrop-filter: blur(0.5rem);
